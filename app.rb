@@ -24,6 +24,38 @@ get '/bundles' do
   content_type :json
   [
     {
+      name: "rose",
+      code: "R12",
+      bundleTypes: [
+        {
+          quantity: 10,
+          price: 1299
+        },
+        {
+          quantity: 5,
+          price: 699
+        }
+      ]
+    },
+    {
+      name: "lily",
+      code: "L09",
+      bundleTypes: [
+        {
+          quantity: 9,
+          price: 2495
+        },
+        {
+          quantity: 6,
+          price: 1695
+        },
+        {
+          quantity: 3,
+          price: 995
+        }
+      ]
+    },
+    {
       name: "tulip",
       code: "T58",
       bundleTypes: [
