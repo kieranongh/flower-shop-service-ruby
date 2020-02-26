@@ -14,9 +14,8 @@ before do
 end
 
 options "*" do
-  response.headers["Allow"] = "GET, PUT, POST, DELETE, OPTIONS"
+  response.headers["Allow"] = "GET, POST, OPTIONS"
   response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
-  response.headers["Access-Control-Allow-Origin"] = "*"
   200
 end
 
@@ -74,4 +73,26 @@ get '/bundles' do
       ]
     }
   ].to_json
+end
+
+post '/shipments/log' do
+  logger.info Time.now
+
+  request.body.rewind
+  data = JSON.parse request.body.read
+  data['shipments'].each do |s|
+    line = "[" +
+           "Code: #{s['code']}, " +
+           "Qty: #{s['quantity']}, " +
+           "Price: #{inCurrency(s['totalPrice'])}" +
+           "]"
+    logger.info line
+  end
+
+  logger.info "Total price: #{inCurrency(data['totalPrice'])}"
+  200
+end
+
+def inCurrency(value)
+  return sprintf("$%0.02f", value/100)
 end
